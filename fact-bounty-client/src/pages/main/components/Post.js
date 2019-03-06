@@ -1,13 +1,14 @@
-import React, {Component}               from 'react'
-import {Card, CardContent, Icon}        from '@material-ui/core'
-import postImg1                         from '../flag1.jpg'
-import {withStyles}                     from '@material-ui/core/styles'
+import React, { Component } from 'react'
+import { Card, CardContent, Icon } from '@material-ui/core'
+import postImg1 from '../flag1.jpg'
+import { withStyles } from '@material-ui/core/styles'
 import '../Posts.sass'
-import ReportProblem                    from '@material-ui/icons/ReportProblemOutlined'
-import Cancel                           from '@material-ui/icons/CancelOutlined'
-import {approveVote, fakeVote, mixVote} from '../actions/postActions'
-import {connect}                        from 'react-redux'
-import compose                          from 'recompose/compose'
+import ReportProblem from '@material-ui/icons/ReportProblemOutlined'
+import Cancel from '@material-ui/icons/CancelOutlined'
+import { approveVote, fakeVote, mixVote } from '../actions/postActions'
+import { connect } from 'react-redux'
+import compose from 'recompose/compose'
+import { Redirect } from 'react-router-dom';
 
 const styles = {
 	cardContent: {
@@ -40,6 +41,14 @@ const styles = {
 }
 
 class Post extends Component {
+
+	constructor(props) {
+		super(props);
+		this.state = {
+			toLoginPage: false
+		};
+	}
+
 	componentDidMount() {
 		this.setState({
 			postContent: this.props.post.content
@@ -69,7 +78,11 @@ class Post extends Component {
 	}
 
 	handleClick = (value) => {
-		if (value === 'approve') {
+		if (!this.props.authenticated) {
+			this.setState({
+				toLoginPage: true
+			});
+		} else if (value === 'approve') {
 			this.props.approveVote(this.props.post._id)
 		} else if (value === 'fake') {
 			this.props.fakeVote(this.props.post._id)
@@ -81,17 +94,22 @@ class Post extends Component {
 	}
 
 	render() {
-		const {post, classes} = this.props
+
+		if (this.state.toLoginPage) {
+			return <Redirect to='/login' />
+		}
+
+		const { post, classes } = this.props
 		const content = post.content.slice(0, 320)
 		const totalVotes = post.approved_count + post.fake_count + post.mixedvote_count
 		const highestVotes = this.findHighestVotesColor(post)
 		const votes = (
-			<div className="vote-status" style={{backgroundColor: highestVotes}}>
-				<div className="votes true-votes" style={{width: (post.approved_count / totalVotes * 100) + '%'}}><span
+			<div className="vote-status" style={{ backgroundColor: highestVotes }}>
+				<div className="votes true-votes" style={{ width: (post.approved_count / totalVotes * 100) + '%' }}><span
 					className="vote-value">{this.displayVote(post.approved_count, totalVotes)}</span></div>
-				<div className="votes fake-votes" style={{width: (post.fake_count / totalVotes * 100) + '%'}}><span
+				<div className="votes fake-votes" style={{ width: (post.fake_count / totalVotes * 100) + '%' }}><span
 					className="vote-value">{this.displayVote(post.fake_count, totalVotes)}</span></div>
-				<div className="votes mix-votes" style={{width: (post.mixedvote_count / totalVotes * 100) + '%'}}><span
+				<div className="votes mix-votes" style={{ width: (post.mixedvote_count / totalVotes * 100) + '%' }}><span
 					className="vote-value">{this.displayVote(post.mixedvote_count, totalVotes)}</span></div>
 			</div>
 		)
@@ -125,14 +143,14 @@ class Post extends Component {
 						</div>
 					</div>
 					<div className="fake-transition" onClick={() => this.handleClick('fake')}>
-						<div className="fake-btn"><Cancel className={classes.icon}/></div>
+						<div className="fake-btn"><Cancel className={classes.icon} /></div>
 						<div className="fake-btn-hover">
 							<Icon className={classes.fakeBtnHover}>cancel</Icon>
 							<div className="fake-label">Fake</div>
 						</div>
 					</div>
 					<div className="mix-transition" onClick={() => this.handleClick('mix')}>
-						<div className="mix-btn"><ReportProblem className={classes.icon}/></div>
+						<div className="mix-btn"><ReportProblem className={classes.icon} /></div>
 						<div className="mix-btn-hover">
 							<Icon className={classes.mixBtnHover}>report_problem</Icon>
 							<div className="mix-label">Mixture</div>
@@ -148,10 +166,11 @@ class Post extends Component {
 
 const mapStateToProps = state => ({
 	loading: state.posts.loading,
-	error: state.posts.error
+	error: state.posts.error,
+	authenticated: state.auth.isAuthenticated
 })
 
 export default compose(
 	withStyles(styles),
-	connect(mapStateToProps, {approveVote, fakeVote, mixVote})
+	connect(mapStateToProps, { approveVote, fakeVote, mixVote })
 )(Post)
