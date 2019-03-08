@@ -9,6 +9,8 @@ export const VOTE_ERROR = 'VOTE_ERROR'
 export const INCREMENT_PAGE = 'INCREMENT_PAGE'
 export const NO_MORE = 'NO_MORE'
 
+axios.defaults.headers.common['Authorization'] = localStorage.getItem('jwtToken');
+
 export const fetchPosts = (page) => dispatch => {
 	dispatch({ type: LOADING })
 	fetch('/api/stories/get-range/' + page)
@@ -28,7 +30,6 @@ export const fetchPosts = (page) => dispatch => {
 export const approveVote = (voteId) => dispatch => {
 	dispatch({ type: LOADING })
 	axios({
-		baseURL: 'http://localhost:7000',
 		url: '/api/stories/change-upvote-count',
 		method: 'post',
 		data: {
@@ -54,7 +55,6 @@ export const approveVote = (voteId) => dispatch => {
 export const fakeVote = (voteId) => dispatch => {
 	dispatch({ type: LOADING })
 	axios({
-		baseURL: 'http://localhost:7000',
 		url: '/api/stories/change-downvote-count',
 		method: 'post',
 		data: {
@@ -80,7 +80,6 @@ export const fakeVote = (voteId) => dispatch => {
 export const mixVote = (voteId) => dispatch => {
 	dispatch({ type: LOADING })
 	axios({
-		baseURL: 'http://localhost:7000',
 		url: '/api/stories/change-mixedvote-count',
 		method: 'post',
 		data: {

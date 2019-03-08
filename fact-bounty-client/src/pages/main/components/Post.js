@@ -45,14 +45,9 @@ class Post extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			toLoginPage: false
+			toLoginPage: false,
+			userVote: false
 		};
-	}
-
-	componentDidMount() {
-		this.setState({
-			postContent: this.props.post.content
-		})
 	}
 
 	findHighestVotesColor(post) {
