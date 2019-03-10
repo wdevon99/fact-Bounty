@@ -40,6 +40,7 @@ class Story(db.Model):
         :return: story JSON object
         """
         json_story = {
+            'id': self.id,
             'title': self.title,
             'content': self.content,
             'featured_img_url': self.featured_img_url,

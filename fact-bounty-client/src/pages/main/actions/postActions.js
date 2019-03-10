@@ -16,9 +16,10 @@ export const fetchPosts = (page) => dispatch => {
 	fetch('/api/stories/get-range/' + page)
 		.then(res => res.json())
 		.then(posts => {
+			console.log(posts)
 			dispatch({
 				type: FETCH_POSTS,
-				payload: posts.docs
+				payload: posts.stories
 			})
 			dispatch({ type: INCREMENT_PAGE })
 		})

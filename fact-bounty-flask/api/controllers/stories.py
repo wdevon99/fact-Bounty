@@ -28,7 +28,6 @@ class GetRange(MethodView):
             page, per_page=current_app.config['POSTS_PER_PAGE'], error_out=False
         )
         stories = pagination.items
-
         response = {
             'message': 'Stories successfully fetched',
             'stories': [story.to_json() for story in stories]

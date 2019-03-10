@@ -78,11 +78,11 @@ class Post extends Component {
 				toLoginPage: true
 			});
 		} else if (value === 'approve') {
-			this.props.approveVote(this.props.post._id)
+			this.props.approveVote(this.props.post.id)
 		} else if (value === 'fake') {
-			this.props.fakeVote(this.props.post._id)
+			this.props.fakeVote(this.props.post.id)
 		} else if (value === 'mix') {
-			this.props.mixVote(this.props.post._id)
+			this.props.mixVote(this.props.post.id)
 		} else {
 			console.error('Wrong vote type received ', value)
 		}
