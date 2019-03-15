@@ -1,6 +1,7 @@
 from . import api
 from .controllers.users import userController
 from .controllers.stories import storyController
+
 api.add_url_rule(
   '/users/login',
   view_func=userController['login'],
@@ -10,6 +11,18 @@ api.add_url_rule(
 api.add_url_rule(
   '/users/register',
   view_func=userController['register'],
+  methods=['POST']
+)
+
+api.add_url_rule(
+  '/users/reset',
+  view_func=userController['forget'],
+  methods=['POST']
+)
+
+api.add_url_rule(
+  '/users/reset/<string:token>',
+  view_func=userController['reset'],
   methods=['POST']
 )
 

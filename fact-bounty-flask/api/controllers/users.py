@@ -1,5 +1,7 @@
 from flask.views import MethodView
-from flask import make_response, request, jsonify
+from flask import make_response, request, jsonify, url_for, current_app
+from itsdangerous import URLSafeTimedSerializer
+
 from ..models.user import User
 
 class Register(MethodView):
@@ -28,7 +30,7 @@ class Register(MethodView):
 					return make_response(jsonify(response)), 401
 
 				user = User(email=email, password=password, name=name)
-				user.save()				
+				user.save()
 				response = {
 					'message': 'You registered successfully. Please log in.'
 				}
@@ -82,7 +84,67 @@ class Login(MethodView):
 			# Return a server error using the HTTP Error Code 500 (Internal Server Error)
 			return make_response(jsonify(response)), 500
 
+
+class Forget(MethodView):
+	def post(self):
+		"""Handle POST request for this view. Url ---> /api/users/reset"""
+		try:
+			data = request.get_json(silent=True)
+			# Get the user object using their email (unique to every user)
+			user = User.query.filter_by(email=data['email']).first()
+		except Exception as e:
+			# Create a response containing an string error message
+			response = {
+				'message': str(e)
+			}
+			# Return a server error using the HTTP Error Code 500 (Internal Server Error)
+			return make_response(jsonify(response)), 500
+
+		password_reset_serializer = URLSafeTimedSerializer(current_app.config['SECRET_KEY'])
+
+		url = 'localhost:3000/user/reset/' + password_reset_serializer.dumps(data['email'], salt='password-reset-salt'),
+
+		print(url)
+		## send it to mail
+
+
+		response = {
+			'message': 'Password Reset Requested'
+		}
+		return make_response(jsonify(response)), 200
+
+
+
+class Reset(MethodView):
+	def post(self):
+		try:
+			password_reset_serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
+
+			email = password_reset_serializer.loads(token, salt='password-reset-salt', max_age=3600)
+		except:
+			response = {
+				'message': 'The password reset link is invalid or has expired'
+			}
+			return make_response(jsonify(response)), 404
+
+		try:
+			password = resquest.get_json(silent=True)
+			user = User.query.filter_by(email=email).first()
+		except:
+			response = {
+				'message': 'Invalid password, Please try again'
+			}
+			return make_response(jsonify(response)), 500
+
+		response = {
+			'message': 'Password updated successfully.'
+		}
+		return make_response(jsonify(response)), 200
+
+
 userController = {
 	'register': Register.as_view('register'),
-	'login': Login.as_view('login')
+	'login': Login.as_view('login'),
+	'forget': Forget.as_view('forget'),
+	'reset': Reset.as_view('reset')
 }
