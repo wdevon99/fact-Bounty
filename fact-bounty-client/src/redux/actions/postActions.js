@@ -1,17 +1,18 @@
 import axios from "axios";
-
-export const FETCH_POSTS = "FETCH_POSTS";
-export const LOADING = "LOADING";
-export const APPROVE_VOTE_COMPLETE = "VOTE_COMPLETE";
-export const FAKE_VOTE_COMPLETE = "FAKE_VOTE_COMPLETE";
-export const MIX_VOTE_COMPLETE = "MIX_VOTE_COMPLETE";
-export const VOTE_ERROR = "VOTE_ERROR";
-export const INCREMENT_PAGE = "INCREMENT_PAGE";
-export const NO_MORE = "NO_MORE";
+import {
+  FETCH_POSTS,
+  LOADING,
+  APPROVE_VOTE_COMPLETE,
+  FAKE_VOTE_COMPLETE,
+  MIX_VOTE_COMPLETE,
+  VOTE_ERROR,
+  INCREMENT_PAGE
+} from "./actionTypes";
+import PostsService from "../../services/PostsService";
 
 export const fetchPosts = page => dispatch => {
   dispatch({ type: LOADING });
-  fetch("/api/stories/get-range/" + page)
+  PostsService.fetchPosts(page)
     .then(res => res.json())
     .then(posts => {
       dispatch({
@@ -27,16 +28,7 @@ export const fetchPosts = page => dispatch => {
 
 export const approveVote = voteId => dispatch => {
   dispatch({ type: LOADING });
-  axios({
-    baseURL: "http://localhost:5000",
-    url: "/api/stories/change-upvote-count",
-    method: "post",
-    data: {
-      story_id: voteId,
-      change_val: 1
-    },
-    headers: { "Access-Control-Allow-Origin": "*" }
-  })
+  PostsService.approveVote(voteId, 1)
     .then(res => {
       dispatch({
         type: APPROVE_VOTE_COMPLETE,
@@ -53,16 +45,7 @@ export const approveVote = voteId => dispatch => {
 
 export const fakeVote = voteId => dispatch => {
   dispatch({ type: LOADING });
-  axios({
-    baseURL: "http://localhost:5000",
-    url: "/api/stories/change-downvote-count",
-    method: "post",
-    data: {
-      story_id: voteId,
-      change_val: 1
-    },
-    headers: { "Access-Control-Allow-Origin": "*" }
-  })
+  PostsService.fakeVote(voteId, 1)
     .then(res => {
       dispatch({
         type: FAKE_VOTE_COMPLETE,
@@ -79,16 +62,7 @@ export const fakeVote = voteId => dispatch => {
 
 export const mixVote = voteId => dispatch => {
   dispatch({ type: LOADING });
-  axios({
-    baseURL: "http://localhost:5000",
-    url: "/api/stories/change-mixedvote-count",
-    method: "post",
-    data: {
-      story_id: voteId,
-      change_val: 1
-    },
-    headers: { "Access-Control-Allow-Origin": "*" }
-  })
+  PostsService.mixVote(voteId, 1)
     .then(res => {
       dispatch({
         type: MIX_VOTE_COMPLETE,

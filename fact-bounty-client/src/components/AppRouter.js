@@ -6,17 +6,21 @@ import Landing from "./containers/Landing";
 import Register from "./containers/Register";
 import Login from "./containers/Login";
 import Dashboard from "./containers/Dashboard";
-import Main from "./containers/Main";
+import Posts from "./containers/Posts";
+import About from "./containers/About";
+import NavBar from "./common/NavBar";
 
 class AppRouter extends Component {
   render() {
     return (
       <Router>
         <Fragment>
-          <Route path="/" component={Main} />
-          <Route exact path="/landing" component={Landing} />
+          <NavBar />
+          <Route exact path="/" component={Landing} />
+          <Route path="/posts" component={Posts} />
           <Route exact path="/register" component={Register} />
           <Route exact path="/login" component={Login} />
+          <Route exact path="/about" component={About} />
           <Switch>
             <PrivateRoute exact path="/dashboard" component={Dashboard} />
           </Switch>

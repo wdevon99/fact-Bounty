@@ -7,6 +7,9 @@ const PublicLinks = () => (
     <Link to="/" style={styles.link}>
       <Button color="inherit">Home</Button>
     </Link>
+    <Link to="/posts" style={styles.link}>
+      <Button color="inherit">Posts</Button>
+    </Link>
     <Link to="/about" style={styles.link}>
       <Button color="inherit">About</Button>
     </Link>

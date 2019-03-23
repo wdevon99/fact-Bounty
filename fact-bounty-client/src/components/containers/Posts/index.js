@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import InfiniteScroll from "react-infinite-scroller";
 import PropTypes from "prop-types";
@@ -23,18 +23,21 @@ class Posts extends Component {
       <PostItem key={post._id} post={post} />
     ));
     return (
-      <InfiniteScroll
-        pageStart={0}
-        loadMore={this.loadItems.bind(this)}
-        hasMore={this.props.hasMore}
-        loader={loader}
-      >
-        <div className="postLayout">
-          <div />
-          <div className="postColumn">{items}</div>
-          <div />
-        </div>
-      </InfiniteScroll>
+      <Fragment>
+        <h1>Posts</h1>
+        <InfiniteScroll
+          pageStart={0}
+          loadMore={this.loadItems.bind(this)}
+          hasMore={this.props.hasMore}
+          loader={loader}
+        >
+          <div className="postLayout">
+            <div />
+            <div className="postColumn">{items}</div>
+            <div />
+          </div>
+        </InfiniteScroll>
+      </Fragment>
     );
   }
 }

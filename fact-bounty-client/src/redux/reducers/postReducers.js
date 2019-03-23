@@ -7,7 +7,7 @@ import {
   MIX_VOTE_COMPLETE,
   NO_MORE,
   VOTE_ERROR
-} from "../actions/postActions";
+} from "../actions/actionTypes";
 
 const initialState = {
   items: [],

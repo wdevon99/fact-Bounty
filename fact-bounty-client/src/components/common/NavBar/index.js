@@ -11,7 +11,7 @@ import SwipeableDrawer from "../SwipeableDrawer";
 import PublicLinks from "./PublicLinks";
 import PrivateLinks from "./PrivateLinks";
 import Toast from "../Toast";
-import { logoutUser } from "../../../redux/actions/dashboardActions";
+import { logoutUser } from "../../../redux/actions/authActions";
 
 class NavBar extends Component {
   // constructor

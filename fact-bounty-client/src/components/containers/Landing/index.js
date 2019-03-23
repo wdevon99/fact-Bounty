@@ -6,24 +6,7 @@ class Landing extends Component {
   render() {
     return (
       <div className="landing-container">
-        <Button
-          variant="contained"
-          color="primary"
-          size="large"
-          component={Link}
-          to="/register"
-        >
-          Register
-        </Button>
-        <Button
-          variant="contained"
-          color="primary"
-          size="large"
-          component={Link}
-          to="/login"
-        >
-          Log In
-        </Button>
+        <h1>Welcome to Fact Bounty</h1>
       </div>
     );
   }

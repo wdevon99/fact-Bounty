@@ -22,7 +22,7 @@ import Link from "@material-ui/core/Link";
 
 import Toast from "../../common/Toast";
 import { updateError } from "../../../redux/actions/errorActions";
-import { registerUser } from "../../../redux/actions/newUserActions";
+import { registerUser } from "../../../redux/actions/authActions";
 
 const styles = theme => ({
   main: {

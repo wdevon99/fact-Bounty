@@ -13,6 +13,12 @@ const PublicLinks = () => (
     </ListItem>
     <Divider />
     <ListItem button>
+      <Link to="/posts" style={styles.link}>
+        Posts
+      </Link>
+    </ListItem>
+    <Divider />
+    <ListItem button>
       <Link to="/about" style={styles.link}>
         About
       </Link>

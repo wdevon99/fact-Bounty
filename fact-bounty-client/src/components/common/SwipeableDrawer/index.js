@@ -6,7 +6,7 @@ import Drawer from "@material-ui/core/Drawer";
 import PublicLinks from "./PublicLinks";
 import PrivateLinks from "./PrivateLinks";
 import Toast from "../Toast";
-import { logoutUser } from "../../../redux/actions/dashboardActions";
+import { logoutUser } from "../../../redux/actions/authActions";
 
 class SwipeableDrawer extends React.Component {
   // constructor

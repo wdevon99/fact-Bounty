@@ -14,7 +14,13 @@ const PrivateLinks = ({ handleLogout }) => (
     </ListItem>
     <Divider />
     <ListItem button>
-      <Link to="/" style={styles.link}>
+      <Link to="/posts" style={styles.link}>
+        Posts
+      </Link>
+    </ListItem>
+    <Divider />
+    <ListItem button>
+      <Link to="/about" style={styles.link}>
         About
       </Link>
     </ListItem>
